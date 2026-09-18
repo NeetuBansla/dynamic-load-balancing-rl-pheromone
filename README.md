@@ -114,3 +114,23 @@ The combination of RL and pheromone-based optimization enables the framework to 
 
 
 
+\## Dataset
+
+
+
+This project uses the Google 2019 Cluster Sample dataset for
+
+workload and resource utilization analysis.
+
+
+
+The dataset is publicly available through Kaggle and is not included
+
+in this repository because of its large file size.
+
+
+
+\*\*Dataset Source:\*\*  
+
+https://www.kaggle.com/datasets/derrickmwiti/google-2019-cluster-sample
+
