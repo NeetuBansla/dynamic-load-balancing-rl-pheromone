@@ -10,11 +10,21 @@ from torch import nn, optim
 from sklearn.metrics import classification_report
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import matplotlib.pyplot as plt
+import random
+
+
+import os
+
+RUN_SEED = int(os.environ.get("RUN_SEED", 42))
+
+random.seed(RUN_SEED)
+np.random.seed(RUN_SEED)
+torch.manual_seed(RUN_SEED)
 
 # ---------------------------------------------
 # Load Dataset
 # ---------------------------------------------
-df = pd.read_csv("D:/Farhana/neetu/neetu/borg_traces_data.csv")
+df = pd.read_csv("borg_traces_data.csv")
 print("Loaded:", df.shape)
 
 tqdm.pandas()
@@ -297,7 +307,13 @@ scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
 # Train-test split
-X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(
+    X_scaled,
+    y,
+    test_size=0.2,
+    random_state=RUN_SEED,
+    stratify=y
+)
 
 # Convert to torch tensors
 X_train = torch.tensor(X_train, dtype=torch.float32)
