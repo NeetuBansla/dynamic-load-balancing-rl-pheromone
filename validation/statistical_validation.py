@@ -15,7 +15,7 @@ from scipy import stats
 # SETTINGS
 # ------------------------------------------------------------
 
-MAIN_FILE = Path(__file__).with_name("main.py")
+MAIN_FILE = Path(__file__).resolve().parent.parent / "main.py"
 
 SEEDS = [42, 43, 44, 45, 46]
 
