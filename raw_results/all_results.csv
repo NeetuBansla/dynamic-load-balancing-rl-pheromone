@@ -1,0 +1,29 @@
+Metric,Value
+Accuracy,98.16
+Precision,92.72
+Recall,99.39
+F1 Score,95.94
+Memory Load Variance,150576.8101
+Normalized CPU Load Variance,0.0002
+Balancing Accuracy,79.75
+Hotspots Detected,2
+Average Task Latency,0.0181
+Deadline Miss Rate,3
+Average Waiting Time,0.0126
+Average Prediction Time (ms),0.152
+Baseline Cloud Offloads,63457
+Predicted Cloud Offloads,62166
+Reduction in Cloud Offloading,1291
+Reduction Percentage,2.037
+Total Tasks,405894
+Successfully Assigned Tasks,384667
+Failed Assignments,21227
+Average Failover Attempts,1.11
+Total Critical Tasks,333885
+Failed Critical Tasks,169609
+Average Latency Reduction,20.14332621
+Task Completion Rate,94.70 
+Task Migration Success Rate,100
+Orchestration Decision Accuracy,93.06
+Training Time,149.9920268
+Average Scheduling Overhead,0.000874614

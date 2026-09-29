@@ -8,7 +8,12 @@ import numpy as np
 import torch
 import time
 import matplotlib.pyplot as plt
-import numpy as np
+
+import os
+
+os.makedirs("raw_results", exist_ok=True)
+os.makedirs("figure_data", exist_ok=True)
+os.makedirs("figures", exist_ok=True)
 
 # -------------------------------------------
 # 1. LOAD VARIANCE (CPU + Memory usage)
@@ -285,6 +290,81 @@ print(f"Orchestration Decision Accuracy: {decision_accuracy:.2f}%")
 
 print("\n===================================================\n")
 
+# =========================================================
+# SAVE ALL FINAL RESULTS
+# =========================================================
+
+all_results = pd.DataFrame({
+    "Metric": [
+        "Accuracy",
+        "Precision",
+        "Recall",
+        "F1 Score",
+        "Memory Load Variance",
+        "Normalized CPU Load Variance",
+        "Balancing Accuracy",
+        "Hotspots Detected",
+        "Average Task Latency",
+        "Deadline Miss Rate",
+        "Average Waiting Time",
+        "Average Prediction Time (ms)",
+        "Baseline Cloud Offloads",
+        "Predicted Cloud Offloads",
+        "Reduction in Cloud Offloading",
+        "Reduction Percentage",
+        "Total Tasks",
+        "Successfully Assigned Tasks",
+        "Failed Assignments",
+        "Average Failover Attempts",
+        "Total Critical Tasks",
+        "Failed Critical Tasks",
+        "Average Latency Reduction",
+        "Task Completion Rate",
+        "Task Migration Success Rate",
+        "Orchestration Decision Accuracy",
+        "Training Time",
+        "Average Scheduling Overhead"
+    ],
+
+    "Value": [
+        accuracy,
+        precision,
+        recall,
+        f1,
+        memory_variance,
+        cpu_variance,
+        balancing_accuracy,
+        hotspots,
+        avg_latency,
+        deadline_miss_rate,
+        avg_waiting_time,
+        avg_prediction_time * 1000,
+        baseline_cloud,
+        predicted_cloud,
+        reduction,
+        reduction_percent,
+        total_tasks,
+        successful_tasks,
+        failed_tasks,
+        average_failover_time,
+        len(critical_tasks),
+        len(failed_critical),
+        latency_reduction,
+        completion_rate,
+        migration_success_rate,
+        decision_accuracy,
+        training_time,
+        avg_overhead
+    ]
+})
+
+all_results.to_csv(
+    "raw_results/all_results.csv",
+    index=False
+)
+
+print("\nAll results saved to results/all_results.csv")
+
 # ====== METHODS ======
 methods = ['LR-HSA', 'ACOCSA', 'CNN', 'LSTM', 'Proposed']
 
@@ -319,8 +399,27 @@ for metric, values in metrics.items():
     plt.ylabel(f'{metric} (%)', fontsize=11)
     #plt.title(metric, fontsize=13, fontweight='bold')
     plt.tight_layout()
+    
+    plt.savefig(
+    f"figures/{metric.replace(' ', '_').replace('/', '_')}.png",
+    dpi=300,
+    bbox_inches="tight"
+    )
     plt.show()
     
+classification_data = pd.DataFrame({
+    "Method": methods,
+    "Accuracy": accuracy_vals,
+    "Precision": precision_vals,
+    "Recall": recall_vals,
+    "F1_Score": f1_vals
+})
+
+classification_data.to_csv(
+    "figure_data/classification_metrics.csv",
+    index=False
+)
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -483,7 +582,28 @@ for (metric, values), color in zip(metrics.items(), colors2):
     ax.spines["bottom"].set_linewidth(1)
 
     plt.tight_layout()
+    plt.savefig(
+    f"figures/{metric.replace(' ', '_').replace('/', '_')}.png",
+    dpi=300,
+    bbox_inches="tight"
+    )
     plt.show()
+    
+load_balancing_data = pd.DataFrame({
+    "Method": methods2,
+    "CPU_Load_Variance": cpu_variance_vals,
+    "Balancing_Accuracy": balancing_accuracy_vals,
+    "Hotspots_Detected": hotspots_detected,
+    "Average_Task_Latency": latency,
+    "Deadline_Miss_Rate": miss_rate,
+    "Average_Waiting_Time": waiting_time
+})
+
+load_balancing_data.to_csv(
+    "figure_data/load_balancing_metrics.csv",
+    index=False
+)
+
 
 # =========================================================
 # EDGE–CLOUD OFFLOADING METRICS
@@ -521,8 +641,25 @@ for metric, values in metrics.items():
     plt.ylabel(metric)
     #plt.title(metric, fontsize=13, fontweight='bold')
     plt.tight_layout()
+    plt.savefig(
+    f"figures/{metric.replace(' ', '_').replace('/', '_')}.png",
+    dpi=300,
+    bbox_inches="tight"
+    )
 
     plt.show()
+
+edge_cloud_data = pd.DataFrame({
+    "Method": methods,
+    "Edge_Cloud_Accuracy": edge_cloud_accuracy,
+    "Prediction_Time_ms": prediction_time,
+    "Cloud_Offloading_Reduction": reduction_percent_vals
+})
+
+edge_cloud_data.to_csv(
+    "figure_data/edge_cloud_metrics.csv",
+    index=False
+)
 
 successful_tasks_vals = [352000, 360000, 365000, 375500, successful_tasks]
 failover_time = [2.6, 2.4, 2.1, 1.6, average_failover_time]
@@ -563,7 +700,24 @@ for metric, values in metrics.items():
     plt.ylabel(metric)
     #plt.title(metric, fontsize=13, fontweight='bold')
     plt.tight_layout()
+    plt.savefig(
+    f"figures/{metric.replace(' ', '_').replace('/', '_')}.png",
+    dpi=300,
+    bbox_inches="tight"
+    )
     plt.show()
+
+fault_tolerance_data = pd.DataFrame({
+    "Method": methods,
+    "Successfully_Assigned_Tasks": successful_tasks_vals,
+    "Average_Failover_Time": failover_time,
+    "Failed_Critical_Tasks": failed_critical_vals
+})
+
+fault_tolerance_data.to_csv(
+    "figure_data/fault_tolerance_metrics.csv",
+    index=False
+)
 
 latency_reduction_vals = [12.4, 14.2, 15.9, 18.6, latency_reduction]
 task_completion_vals = [88.3, 89.1, 90.8, 92.5, completion_rate]
@@ -618,7 +772,26 @@ for metric, values in metrics.items():
     plt.ylabel(metric)
     plt.xlabel('Methods')
     plt.tight_layout()
+    plt.savefig(
+    f"figures/{metric.replace(' ', '_').replace('/', '_')}.png",
+    dpi=300,
+    bbox_inches="tight"
+    )
     plt.show()
+
+overall_data = pd.DataFrame({
+    "Method": methods,
+    "Latency_Reduction": latency_reduction_vals,
+    "Task_Completion_Rate": task_completion_vals,
+    "CPU_Load_Variance": cpu_variance_compare,
+    "Migration_Success_Rate": migration_success_vals,
+    "Orchestration_Accuracy": orchestration_accuracy_vals
+})
+
+overall_data.to_csv(
+    "figure_data/overall_performance.csv",
+    index=False
+)
 
 train_time_vals =[432.28, 345.25, 298.33, 242.12, training_time]
 comput_overhead_vals =[0.0070, 0.0050, 0.002, 0.0011, avg_overhead]
@@ -648,5 +821,21 @@ for metric, values in metrics.items():
     plt.ylabel(metric)
     #plt.title(metric, fontsize=13, fontweight='bold')
     plt.tight_layout()
+    plt.savefig(
+    f"figures/{metric.replace(' ', '_').replace('/', '_')}.png",
+    dpi=300,
+    bbox_inches="tight"
+    )
 
     plt.show()
+
+computational_data = pd.DataFrame({
+    "Method": methods,
+    "Training_Time": train_time_vals,
+    "Computational_Overhead": comput_overhead_vals
+})
+
+computational_data.to_csv(
+    "figure_data/computational_performance.csv",
+    index=False
+)
