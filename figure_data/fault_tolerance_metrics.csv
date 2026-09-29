@@ -1,0 +1,6 @@
+Method,Successfully_Assigned_Tasks,Average_Failover_Time,Failed_Critical_Tasks
+LR-HSA,352000,2.6,29000
+ACOCSA,360000,2.4,26000
+CNN,365000,2.1,24500
+LSTM,375500,1.6,21000
+Proposed,384667,1.11,169609

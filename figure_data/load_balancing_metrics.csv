@@ -1,0 +1,4 @@
+Method,CPU_Load_Variance,Balancing_Accuracy,Hotspots_Detected,Average_Task_Latency,Deadline_Miss_Rate,Average_Waiting_Time
+ACO,0.0018,56.3,8,0.024,15,0.016
+PSO,0.0015,62.6,4,0.021,10,0.014
+Proposed,0.0002,79.75,2,0.0181,3,0.0126

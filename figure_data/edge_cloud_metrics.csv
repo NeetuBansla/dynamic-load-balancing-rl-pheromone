@@ -1,0 +1,6 @@
+Method,Edge_Cloud_Accuracy,Prediction_Time_ms,Cloud_Offloading_Reduction
+LR-HSA,93.2,0.32,8
+ACOCSA,93.9,0.3,10
+CNN,94.4,0.26,13
+LSTM,95.1,0.19,17
+Proposed,98.1,0.160343885,2.034448524
