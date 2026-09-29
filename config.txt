@@ -1,0 +1,22 @@
+Experiment Configuration
+========================
+
+Dataset: Google 2019 Cluster Sample
+Train/Test Split: 80/20
+
+Fixed Random Seeds:
+42, 43, 44, 45, 46
+
+Model Configuration:
+Hidden Size: 32
+Optimizer: Adam
+Learning Rate: 0.00003
+Epochs: 35
+Batch Size: 128
+Classification Threshold: 0.35
+
+Random Seed Applied To:
+- Python random
+- NumPy
+- PyTorch
+- Train-test splitting
